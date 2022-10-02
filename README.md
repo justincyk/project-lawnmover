@@ -1,5 +1,5 @@
 # project-lawnmover
-CPSC335 Fall 2022
+CPSC 335 Fall 2022 - Project 1
 
 Group Members: 
 Justin Kim,
