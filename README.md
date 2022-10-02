@@ -2,5 +2,5 @@
 CPSC335 Fall 2022
 
 Group Members: 
-Justin Kim
+Justin Kim,
 Mark Carbajal
