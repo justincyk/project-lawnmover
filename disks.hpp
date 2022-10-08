@@ -145,8 +145,24 @@ public:
 // Algorithm that sorts disks using the alternate algorithm.
 sorted_disks sort_alternate(const disk_state& before) {
 	int numOfSwap = 0;                                                                      //record # of step swap
+  disk_state state{before};
+  int n = state.light_count();
 
-          }
+  for( int k = 0; k < n+1; ++k ){
+    for( int i = 0; i < 2*n; i += 2 ){
+      if( state.get(i) == DISK_DARK && state.get(i) == DISK_LIGHT ){
+        state.swap(i);
+        ++numOfSwap;
+      }
+    }
+
+    for( int j = 1; j < 2*n-1; j+=2 ){
+      if( state.get(j) == DISK_DARK && state.get(j+1) ){
+        state.swap(j);
+        ++numOfSwap;
+      }
+    }
+  }
 
   return sorted_disks(disk_state(state), numOfSwap);
 }
@@ -154,8 +170,25 @@ sorted_disks sort_alternate(const disk_state& before) {
 
 // Algorithm that sorts disks using the lawnmower algorithm.
 sorted_disks sort_lawnmower(const disk_state& before) {
+  disk_state state{before};
+  int numOfSwap = 0;
+  int n = state.light_count();
 
-	  }
+  for( int k = 0; k < (n+1)/2 ; ++k ){
+    for( int i = 0; i < (2*n-1); ++i ){
+      if( state.get(i) == DISK_DARK && state.get(i+1) == DISK_LIGHT ){
+        state.swap(i);
+        ++numOfSwap;
+      }
+    }
+
+    for( int j = 2*n-1; j > 0; --j ){
+      if( state.get(j) == DISK_LIGHT && state.get(j-1) == DISK_DARK ){
+        state.swap(j-1);
+        ++numOfSwap;
+      }
+    }
+  }
 
   return sorted_disks(disk_state(state), numOfSwap);
 }
