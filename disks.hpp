@@ -154,21 +154,21 @@ sorted_disks sort_alternate(const disk_state& before) {
   int n = state.light_count();
 
   for( int k = 0; k < n+1; ++k ){
-    for( int i = 0; i < state.total_count() - 1; i++){
+    for( int i = 0; i < state.total_count(); i+=2 ){
       if( state.get(i) == DISK_DARK && state.get(i+1) == DISK_LIGHT){
         state.swap(i);
         ++numOfSwap;
       }
     }
 
-}
 
-  for( int j = 1; j < 2*n-1; j+=2 ){
+  for( int j = 1; j < state.total_count()-1; j+=2 ){
      if( state.get(j) == DISK_DARK && state.get(j+1) == DISK_LIGHT){
        state.swap(j);
        ++numOfSwap;
      }
    }
+  }
 
   return sorted_disks(disk_state(state), numOfSwap);
 }
