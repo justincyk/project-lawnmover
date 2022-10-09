@@ -112,9 +112,13 @@ public:
   // Return true when this disk_state is fully sorted, with all light disks on
   // the left (low indices) and all dark disks on the right (high indices).
   bool is_sorted() const {
-
-      return true;
-  }
+    for (size_t i = 0; i < light_count(); i++)
+    		{
+    			if (get(i) != 0)
+    				return false;
+    		}
+    		return true;
+    	}
 };
 
 // Data structure for the output of the alternating disks problem. That
@@ -144,25 +148,27 @@ public:
 
 // Algorithm that sorts disks using the alternate algorithm.
 sorted_disks sort_alternate(const disk_state& before) {
+
 	int numOfSwap = 0;                                                                      //record # of step swap
   disk_state state{before};
   int n = state.light_count();
 
   for( int k = 0; k < n+1; ++k ){
-    for( int i = 0; i < 2*n; i += 2 ){
-      if( state.get(i) == DISK_DARK && state.get(i) == DISK_LIGHT ){
+    for( int i = 0; i < state.total_count() - 1; i++){
+      if( state.get(i) == DISK_DARK && state.get(i+1) == DISK_LIGHT){
         state.swap(i);
         ++numOfSwap;
       }
     }
 
-    for( int j = 1; j < 2*n-1; j+=2 ){
-      if( state.get(j) == DISK_DARK && state.get(j+1) ){
-        state.swap(j);
-        ++numOfSwap;
-      }
-    }
-  }
+}
+
+  for( int j = 1; j < 2*n-1; j+=2 ){
+     if( state.get(j) == DISK_DARK && state.get(j+1) == DISK_LIGHT){
+       state.swap(j);
+       ++numOfSwap;
+     }
+   }
 
   return sorted_disks(disk_state(state), numOfSwap);
 }
